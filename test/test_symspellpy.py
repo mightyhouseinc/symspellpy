@@ -252,14 +252,14 @@ class TestSymSpellPy(unittest.TestCase):
 
         test_list = []
         with open(query_path, "r") as infile:
-            for line in infile.readlines():
+            for line in infile:
                 line_parts = line.rstrip().split(" ")
                 if len(line_parts) >= 2:
                     test_list.append(line_parts[0])
-        result_sum = 0
-        for phrase in test_list:
-            result_sum += len(sym_spell.lookup(phrase, verbosity,
-                                               edit_distance_max))
+        result_sum = sum(
+            len(sym_spell.lookup(phrase, verbosity, edit_distance_max))
+            for phrase in test_list
+        )
         self.assertEqual(4945, result_sum)
 
     def test_lookup_compound(self):
